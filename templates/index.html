@@ -17,15 +17,18 @@
 <body>
 
     <!-- Sidebar Navigation -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="brand-header">
             <div class="brand-icon">
                 <i data-lucide="shield-alert"></i>
             </div>
-            <div>
+            <div class="brand-text-wrap">
                 <div class="brand-title">NeuroFinance GPT</div>
                 <div class="brand-subtitle">Explainable Financial AI</div>
             </div>
+            <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close navigation" onclick="closeSidebar()">
+                <i data-lucide="x"></i>
+            </button>
         </div>
 
         <nav class="nav-menu">
@@ -65,18 +68,26 @@
         </div>
     </aside>
 
+    <!-- Mobile Sidebar Backdrop -->
+    <div id="sidebar-backdrop" class="sidebar-backdrop" onclick="closeSidebar()"></div>
+
     <!-- Main Wrapper -->
     <div class="main-wrapper">
         <!-- Top Navbar -->
         <header class="top-navbar">
-            <div class="page-header-title">
-                <h1 id="topbar-title">Dashboard</h1>
-                <p id="topbar-subtitle">Monitor financial transactions and identify suspicious activity using explainable AI.</p>
+            <div class="topbar-left">
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open navigation menu" onclick="toggleSidebar()">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="page-header-title">
+                    <h1 id="topbar-title">Dashboard</h1>
+                    <p id="topbar-subtitle">Monitor financial transactions and identify suspicious activity using explainable AI.</p>
+                </div>
             </div>
             <div class="top-actions">
-                <button class="btn btn-primary" onclick="navigateTo('analyze')">
+                <button class="btn btn-primary topbar-action-btn" onclick="navigateTo('analyze')">
                     <i data-lucide="plus-circle"></i>
-                    <span>Analyze New Transaction</span>
+                    <span class="btn-text">Analyze New Transaction</span>
                 </button>
             </div>
         </header>
@@ -104,7 +115,7 @@
                             </strong>
                             <p style="font-size: 12px; color: #94A3B8; margin-top: 2px;">One-click scenario testing: Evaluates clean banking inputs against automated behavioral & contextual baselines.</p>
                         </div>
-                        <span style="font-size: 11px; background: rgba(59, 130, 246, 0.2); color: #93C5FD; border: 1px solid #3B82F6; padding: 4px 10px; border-radius: 9999px; font-weight: 600;">Faculty Evaluator Presets</span>
+                        <span class="faculty-presets-badge">Faculty Evaluator Presets</span>
                     </div>
                     <div class="faculty-demo-cards">
                         <div class="faculty-scenario-btn" onclick="loadScenario('scenario_1')">
@@ -227,7 +238,7 @@
                             </strong>
                             <p style="font-size: 12px; color: #94A3B8; margin-top: 2px;">Test real-world banking transactions with automated contextual feature derivation.</p>
                         </div>
-                        <span style="font-size: 11px; background: rgba(245, 158, 11, 0.2); color: #FCD34D; border: 1px solid #F59E0B; padding: 4px 10px; border-radius: 9999px; font-weight: 600;">1-Click Simulation</span>
+                        <span class="faculty-presets-badge">1-Click Simulation</span>
                     </div>
                     <div class="faculty-demo-cards">
                         <div class="faculty-scenario-btn" onclick="loadScenario('scenario_1')">
@@ -256,7 +267,7 @@
 
                 <!-- Main Banking Form Card -->
                 <div class="form-card" style="margin-bottom: 24px;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--color-border);">
+                    <div class="form-header-bar">
                         <div>
                             <h2 style="font-size: 20px; font-weight: 800; color: var(--color-primary); display: flex; align-items: center; gap: 8px;">
                                 <i data-lucide="send" style="color: var(--color-secondary);"></i>
@@ -270,7 +281,7 @@
                     </div>
 
                     <!-- Demo Mode Active Notice Banner -->
-                    <div id="demo-scenario-banner" style="display: none; background: #FEF3C7; border: 1px solid #F59E0B; border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 18px; display: none; justify-content: space-between; align-items: center;">
+                    <div id="demo-scenario-banner" class="demo-scenario-banner" style="display: none;">
                         <div>
                             <strong style="color: #92400E; font-size: 13px; display: flex; align-items: center; gap: 6px;">
                                 <i data-lucide="alert-triangle" style="width: 16px; height: 16px;"></i>
@@ -295,7 +306,7 @@
                             
                             <!-- Dynamic Customer Baseline Info Box -->
                             <div id="customer-profile-card" class="customer-info-card">
-                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
                                     <strong style="color: var(--color-secondary); font-size: 13px;" id="cust-card-title">Customer Account Profile</strong>
                                     <span class="badge badge-safe" id="cust-card-status">Clean History</span>
                                 </div>
@@ -321,7 +332,7 @@
                         </div>
 
                         <!-- Basic Banking Inputs (Only standard transaction fields!) -->
-                        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 20px;">
+                        <div class="form-grid-2-1">
                             <div class="form-group">
                                 <label class="form-label" for="input-amount">Transaction Amount (₹) *</label>
                                 <div style="position: relative;">
@@ -341,7 +352,7 @@
                             </div>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-grid-1-1">
                             <div class="form-group">
                                 <label class="form-label" for="input-recipient">Recipient / Merchant / Beneficiary *</label>
                                 <input type="text" id="input-recipient" class="form-control" placeholder="e.g. Amazon India, Nature's Basket, Ramesh Sharma" required style="padding: 12px 14px;">
@@ -353,7 +364,7 @@
                         </div>
 
                         <!-- Real Application Date & Time Inputs -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 6px;">
+                        <div class="form-grid-1-1" style="margin-top: 6px;">
                             <div class="form-group">
                                 <label class="form-label" for="input-date">
                                     Transaction Date <span style="font-size: 11px; font-weight: normal; color: var(--color-text-muted);">(Optional — Leave blank for current server date)</span>
@@ -377,7 +388,7 @@
                             <p style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 12px;">
                                 By default, the system automatically uses the client environment, current time, and customer's registered verified device & home location. Use the controls below only if you want to test edge cases (such as simulating an overnight transaction or foreign proxy IP).
                             </p>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+                            <div class="form-grid-3">
                                 <div class="form-group" style="margin-bottom: 0;">
                                     <label class="form-label" style="font-size: 12px;">Simulated Device</label>
                                     <input type="text" id="input-sim-device" class="form-control" placeholder="Leave blank for auto-detected">
@@ -393,9 +404,9 @@
                             </div>
                         </details>
 
-                        <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px; margin-top: 10px;">
+                        <div class="form-actions-row">
                             <button type="button" class="btn btn-secondary" onclick="resetBankingForm()">Clear Form</button>
-                            <button type="submit" class="btn btn-primary" style="padding: 14px 32px; font-size: 16px;">
+                            <button type="submit" class="btn btn-primary" style="padding: 14px 28px; font-size: 15px;">
                                 <i data-lucide="shield-check"></i>
                                 <span>Execute Payment & AI Security Analysis</span>
                             </button>
@@ -407,12 +418,12 @@
             <!-- VIEW 3: ANALYSIS RESULT PAGE -->
             <section id="view-result" class="view-section">
                 <div class="result-card">
-                    <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--color-border); padding-bottom: 20px; margin-bottom: 24px;">
+                    <div class="result-header-row">
                         <div>
                             <span style="font-size: 12px; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase;">Transaction Analysis & Explainable AI Assessment</span>
-                            <h2 style="font-size: 24px; font-weight: 800; color: var(--color-primary);" id="res-tx-id">TXN-2026-XXXXX</h2>
+                            <h2 style="font-size: 24px; font-weight: 800; color: var(--color-primary); word-break: break-all;" id="res-tx-id">TXN-2026-XXXXX</h2>
                         </div>
-                        <div style="display: flex; gap: 10px;">
+                        <div class="result-header-actions">
                             <button class="btn btn-secondary btn-sm" onclick="navigateTo('analyze')">← Analyze Another</button>
                             <button class="btn btn-secondary btn-sm" onclick="navigateTo('transactions')">View History</button>
                         </div>
@@ -420,12 +431,12 @@
 
                     <!-- Risk Meter Box -->
                     <div id="res-risk-box" class="risk-meter-box high-risk">
-                        <div>
+                        <div class="risk-meter-left">
                             <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" id="res-risk-label">HIGH RISK</div>
                             <div class="score-display-huge" id="res-risk-prob">88.4%</div>
                             <div style="font-size: 15px; font-weight: 700; margin-top: 4px;" id="res-prediction-text">Potential Fraud Detected</div>
                         </div>
-                        <div style="text-align: right;">
+                        <div class="risk-meter-right">
                             <div style="font-size: 12px; color: var(--color-text-muted); text-transform: uppercase; font-weight: 600;">Transaction Amount</div>
                             <div style="font-size: 28px; font-weight: 800;" id="res-amount">₹80,000</div>
                             <div style="font-size: 13px; color: var(--color-text-muted); font-weight: 500; margin-top: 2px;" id="res-meta">Online Transfer • CryptoGlobal Desk</div>
@@ -552,20 +563,20 @@
             <!-- VIEW 4: TRANSACTIONS HISTORY -->
             <section id="view-transactions" class="view-section">
                 <div class="table-card">
-                    <div class="table-header-row" style="flex-wrap: wrap; gap: 16px;">
-                        <div>
+                    <div class="table-header-row">
+                        <div class="table-header-info">
                             <h3 style="font-size: 18px; font-weight: 700;">Transaction History Database</h3>
                             <p style="font-size: 12px; color: var(--color-text-muted);">Stored records of all analyzed transactions with risk scores and XAI factors.</p>
                         </div>
-                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                            <input type="text" id="tx-search" class="form-control" placeholder="Search TXN ID, location..." style="width: 200px;" oninput="fetchTransactions()">
-                            <select id="filter-risk" class="form-control" style="width: 140px;" onchange="fetchTransactions()">
+                        <div class="table-filters-row">
+                            <input type="text" id="tx-search" class="form-control filter-input filter-search" placeholder="Search TXN ID, location..." oninput="fetchTransactions()">
+                            <select id="filter-risk" class="form-control filter-input filter-select" onchange="fetchTransactions()">
                                 <option value="">All Risk Levels</option>
                                 <option value="LOW RISK">LOW RISK</option>
                                 <option value="MEDIUM RISK">MEDIUM RISK</option>
                                 <option value="HIGH RISK">HIGH RISK</option>
                             </select>
-                            <select id="filter-type" class="form-control" style="width: 140px;" onchange="fetchTransactions()">
+                            <select id="filter-type" class="form-control filter-input filter-select" onchange="fetchTransactions()">
                                 <option value="">All Types</option>
                                 <option value="Purchase">Purchase</option>
                                 <option value="Transfer">Transfer</option>
@@ -573,7 +584,7 @@
                                 <option value="Payment">Payment</option>
                                 <option value="Online Transfer">Online Transfer</option>
                             </select>
-                            <select id="filter-record-type" class="form-control" style="width: 170px;" onchange="fetchTransactions()">
+                            <select id="filter-record-type" class="form-control filter-input filter-select-lg" onchange="fetchTransactions()">
                                 <option value="">All Records (Live & Demo)</option>
                                 <option value="live">Live Submissions Only</option>
                                 <option value="demo">Demo Records Only</option>
@@ -748,7 +759,7 @@
                             Deep Neural Network architecture (72 &rarr; 128 &rarr; 64 &rarr; 32 &rarr; 2) trained with Adam optimizer, ReLU activations, L2 weight regularization, and stratified class balancing to detect complex multi-modal fraud representations.
                         </p>
 
-                        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 18px;">
+                        <div class="dataset-substats-3">
                             <div style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-sm); text-align: center;">
                                 <div style="font-size: 11px; color: var(--color-text-muted); font-weight: 600;">Accuracy</div>
                                 <div style="font-size: 20px; font-weight: 800; color: #16A34A;" id="ds-model-accuracy">97.29%</div>
@@ -763,7 +774,7 @@
                             </div>
                         </div>
 
-                        <div class="stats-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 18px;">
+                        <div class="dataset-substats-2">
                             <div style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-sm); text-align: center;">
                                 <div style="font-size: 11px; color: var(--color-text-muted); font-weight: 600;">Precision</div>
                                 <div style="font-size: 18px; font-weight: 700; color: var(--color-primary);" id="ds-model-precision">50.0%</div>
@@ -787,7 +798,7 @@
 
                     <!-- Academic Confusion Matrix & Baseline Comparator -->
                     <div class="form-card">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
                             <h3 style="font-size: 16px; font-weight: 700; color: var(--color-primary); display: flex; align-items: center; gap: 8px;">
                                 <i data-lucide="grid" style="color: var(--color-secondary);"></i>
                                 <span>Academic Confusion Matrix (Test Set: N=10,000)</span>
@@ -829,7 +840,7 @@
 
                         <!-- Optional Baseline Model (Random Forest) Benchmark Note -->
                         <div style="margin-top: 16px; background: #F8FAFC; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 12px 16px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                            <div class="baseline-model-header">
                                 <strong style="font-size: 13px; color: var(--color-primary);">Baseline Model: Random Forest (Optional)</strong>
                                 <span style="font-size: 12px; font-weight: 700; color: #2563EB;">Acc: <span id="ds-baseline-accuracy">93.50%</span> | F1: <span id="ds-baseline-f1">38.91%</span> | ROC: <span id="ds-baseline-roc">92.13%</span></span>
                             </div>
@@ -874,8 +885,8 @@
             <!-- VIEW 6: AI ASSISTANT CHAT -->
             <section id="view-chat" class="view-section">
                 <div class="chat-card">
-                    <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; gap: 12px;">
-                        <div style="width: 36px; height: 36px; background: var(--color-secondary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <div class="chat-header-row">
+                        <div style="width: 36px; height: 36px; background: var(--color-secondary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                             <i data-lucide="bot"></i>
                         </div>
                         <div>

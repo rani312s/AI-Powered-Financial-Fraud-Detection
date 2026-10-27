@@ -16,11 +16,43 @@ function initNavigation() {
             e.preventDefault();
             const targetView = item.getAttribute('data-view');
             navigateTo(targetView);
+            closeSidebar();
         });
+    });
+
+    // Close mobile drawer on Escape key or resize
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeSidebar();
+            closeModal();
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            closeSidebar();
+        }
     });
 }
 
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    if (sidebar) sidebar.classList.toggle('open');
+    if (backdrop) backdrop.classList.toggle('active');
+}
+
+function closeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    if (sidebar) sidebar.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('active');
+}
+
 function navigateTo(viewId) {
+    // Automatically close mobile navigation drawer
+    closeSidebar();
+
     // Update navigation sidebar active state
     document.querySelectorAll('.nav-item').forEach(el => {
         if (el.getAttribute('data-view') === viewId) {
@@ -139,19 +171,19 @@ async function openTransactionModal(txId) {
                 const tsDisplay = tx.transaction_timestamp || `${tx.date} ${tx.time}`;
 
                 document.getElementById('modal-body-content').innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; background: var(--color-bg); padding: 16px; border-radius: var(--radius-md); margin-bottom: 20px;">
+                <div class="modal-amount-header">
                     <div>
                         <div style="font-size: 12px; color: var(--color-text-muted);">Amount</div>
                         <div style="font-size: 24px; font-weight: 800; color: var(--color-primary);">${formatINR(tx.amount)}</div>
                     </div>
-                    <div>
+                    <div class="modal-amount-right">
                         ${getRiskBadgeHTML(tx.risk_level)}
-                        <div style="font-size: 14px; font-weight: 700; margin-top: 4px; text-align: right;">${tx.risk_score !== undefined && tx.risk_score !== null ? tx.risk_score : tx.fraud_probability}/100 Risk Score</div>
-                        <div style="font-size: 12px; color: var(--color-text-muted); text-align: right;">(${tx.fraud_probability}% Fraud Probability)</div>
+                        <div style="font-size: 14px; font-weight: 700; margin-top: 4px;">${tx.risk_score !== undefined && tx.risk_score !== null ? tx.risk_score : tx.fraud_probability}/100 Risk Score</div>
+                        <div style="font-size: 12px; color: var(--color-text-muted);">(${tx.fraud_probability}% Fraud Probability)</div>
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; font-size: 13px;">
+                <div class="modal-grid-2">
                     <div><strong>Record Classification:</strong> ${recordTypeBadge}</div>
                     <div><strong>Application Timestamp:</strong> <code>${tsDisplay}</code></div>
                     <div><strong>Customer Account:</strong> ${tx.customer_id || 'CUST-001'}</div>
@@ -160,7 +192,7 @@ async function openTransactionModal(txId) {
                     <div><strong>Location:</strong> ${tx.location} ${tx.unusual_location ? '<span style="color:#DC2626;">(Anomalous ⚠️)</span>' : '(Verified Home)'}</div>
                     <div><strong>Device:</strong> ${tx.device_type} ${tx.new_device ? '<span style="color:#DC2626;">(New Device ⚠️)</span>' : '(Known Device)'}</div>
                     <div><strong>Customer Historical Avg:</strong> ${formatINR(tx.customer_average_amount)}</div>
-                    <div><strong>Payment Remarks:</strong> ${tx.description || 'Standard payment'}</div>
+                    <div class="modal-grid-full"><strong>Payment Remarks:</strong> ${tx.description || 'Standard payment'}</div>
                 </div>
 
                 <div style="margin-bottom: 20px;">
