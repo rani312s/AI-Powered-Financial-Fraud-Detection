@@ -29,4 +29,3 @@ database/*.db
 
 # Raw and processed datasets
 data/raw/
-data/processed/
