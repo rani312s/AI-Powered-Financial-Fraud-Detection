@@ -1,0 +1,71 @@
+{
+  "primary_model_name": "Artificial Neural Network (ANN)",
+  "model_type": "Deep Learning",
+  "model_architecture": "Deep Multi-Layer Perceptron (ANN: 72 -> 128 -> 64 -> 32 -> 2)",
+  "total_test_samples": 10000,
+  "test_fraud_samples": 271,
+  "test_non_fraud_samples": 9729,
+  "accuracy": 97.29,
+  "precision": 50.0,
+  "recall": 53.51,
+  "f1_score": 51.69,
+  "roc_auc": 87.82,
+  "confusion_matrix": [
+    [
+      9584,
+      145
+    ],
+    [
+      126,
+      145
+    ]
+  ],
+  "baseline_model_name": "Random Forest (Optional Baseline)",
+  "baseline_rf_accuracy": 93.5,
+  "baseline_rf_precision": 26.1,
+  "baseline_rf_recall": 76.38,
+  "baseline_rf_f1": 38.91,
+  "baseline_rf_roc_auc": 92.13,
+  "top_global_features": [
+    {
+      "feature": "TransactionAmt",
+      "importance": 2.27
+    },
+    {
+      "feature": "card1",
+      "importance": 2.03
+    },
+    {
+      "feature": "TransactionDT",
+      "importance": 1.97
+    },
+    {
+      "feature": "card2",
+      "importance": 1.94
+    },
+    {
+      "feature": "addr1",
+      "importance": 1.86
+    },
+    {
+      "feature": "V283",
+      "importance": 1.83
+    },
+    {
+      "feature": "id_01",
+      "importance": 1.81
+    },
+    {
+      "feature": "V282",
+      "importance": 1.76
+    },
+    {
+      "feature": "card5",
+      "importance": 1.72
+    },
+    {
+      "feature": "D10",
+      "importance": 1.7
+    }
+  ]
+}

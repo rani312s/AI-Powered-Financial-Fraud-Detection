@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroFinance GPT — Explainable AI Financial Fraud Prediction</title>
+    <meta name="description" content="AI-powered financial fraud detection system using multi-modal data, machine learning, SHAP explainable AI, and GPT natural language explanations.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand-header">
+            <div class="brand-icon">
+                <i data-lucide="shield-alert"></i>
+            </div>
+            <div>
+                <div class="brand-title">NeuroFinance GPT</div>
+                <div class="brand-subtitle">Explainable Financial AI</div>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a class="nav-item active" data-view="dashboard">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Dashboard</span>
+            </a>
+            <a class="nav-item" data-view="analyze">
+                <i data-lucide="search-code"></i>
+                <span>Analyze Transaction</span>
+            </a>
+            <a class="nav-item" data-view="transactions">
+                <i data-lucide="receipt"></i>
+                <span>Transaction History</span>
+            </a>
+            <a class="nav-item" data-view="xai">
+                <i data-lucide="cpu"></i>
+                <span>Explainable AI (XAI)</span>
+            </a>
+            <a class="nav-item" data-view="dataset">
+                <i data-lucide="database"></i>
+                <span>Dataset & Model</span>
+            </a>
+            <a class="nav-item" data-view="chat">
+                <i data-lucide="bot"></i>
+                <span>AI Assistant</span>
+            </a>
+            <a class="nav-item" data-view="about">
+                <i data-lucide="info"></i>
+                <span>About System</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="status-dot"></div>
+            <span>AI Model Engine v2.4 Online</span>
+        </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Top Navbar -->
+        <header class="top-navbar">
+            <div class="page-header-title">
+                <h1 id="topbar-title">Dashboard</h1>
+                <p id="topbar-subtitle">Monitor financial transactions and identify suspicious activity using explainable AI.</p>
+            </div>
+            <div class="top-actions">
+                <button class="btn btn-primary" onclick="navigateTo('analyze')">
+                    <i data-lucide="plus-circle"></i>
+                    <span>Analyze New Transaction</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+
+            <!-- Academic Disclaimer Banner -->
+            <div class="academic-banner">
+                <i data-lucide="alert-triangle"></i>
+                <div>
+                    <strong>Academic Project Disclaimer:</strong> NeuroFinance GPT provides risk assessments based on multi-modal feature vectors and machine learning algorithms. Predictions indicate fraud risk levels and do not constitute absolute legal proof of fraud.
+                </div>
+            </div>
+
+            <!-- VIEW 1: DASHBOARD -->
+            <section id="view-dashboard" class="view-section active">
+                <!-- Faculty Demonstration Mode Toolbar (Dashboard) -->
+                <div class="faculty-demo-bar">
+                    <div class="faculty-demo-title">
+                        <div>
+                            <strong style="font-size: 15px; color: #FFFFFF; display: flex; align-items: center; gap: 8px;">
+                                <i data-lucide="award" style="color: #60A5FA;"></i>
+                                Faculty Demonstration Mode
+                            </strong>
+                            <p style="font-size: 12px; color: #94A3B8; margin-top: 2px;">One-click scenario testing: Evaluates clean banking inputs against automated behavioral & contextual baselines.</p>
+                        </div>
+                        <span style="font-size: 11px; background: rgba(59, 130, 246, 0.2); color: #93C5FD; border: 1px solid #3B82F6; padding: 4px 10px; border-radius: 9999px; font-weight: 600;">Faculty Evaluator Presets</span>
+                    </div>
+                    <div class="faculty-demo-cards">
+                        <div class="faculty-scenario-btn" onclick="loadScenario('scenario_1')">
+                            <div class="faculty-btn-header">
+                                <span class="faculty-btn-title">🟢 Scenario 1 — Safe Routine Purchase</span>
+                                <span class="faculty-tag faculty-tag-safe">Low Risk</span>
+                            </div>
+                            <p class="faculty-btn-sub">Priya Sharma • ₹2,500 groceries to Nature's Basket. Verified iPhone in Mumbai within usual transaction-time pattern.</p>
+                        </div>
+                        <div class="faculty-scenario-btn" onclick="loadScenario('scenario_2')">
+                            <div class="faculty-btn-header">
+                                <span class="faculty-btn-title">🔴 Scenario 2 — Suspicious Fraud</span>
+                                <span class="faculty-tag faculty-tag-fraud">High Risk</span>
+                            </div>
+                            <p class="faculty-btn-sub">Priya Sharma • ₹80,000 to CryptoGlobal Desk. Overnight 03:15 AM from new Linux device in Lagos (Proxy IP).</p>
+                        </div>
+                        <div class="faculty-scenario-btn" onclick="loadScenario('scenario_3')">
+                            <div class="faculty-btn-header">
+                                <span class="faculty-btn-title">🔵 Scenario 3 — High Value Legitimate</span>
+                                <span class="faculty-tag faculty-tag-legit">Anti-False-Positive</span>
+                            </div>
+                            <p class="faculty-btn-sub">Aarav Patel • ₹1,20,000 tuition fee. High value from verified MacBook in Bengaluru. Proves Amount != Fraud!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Cards Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-title">Total Transactions</div>
+                        <div class="stat-value" id="stat-total">--</div>
+                        <div class="stat-subtext">Monitored in system</div>
+                        <div class="stat-icon-wrapper bg-blue-light">
+                            <i data-lucide="layers"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Safe Transactions</div>
+                        <div class="stat-value" id="stat-safe" style="color: var(--color-success);">--</div>
+                        <div class="stat-subtext">Verified low risk</div>
+                        <div class="stat-icon-wrapper bg-green-light">
+                            <i data-lucide="check-circle-2"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Suspicious / High Risk</div>
+                        <div class="stat-value" id="stat-suspicious" style="color: var(--color-danger);">--</div>
+                        <div class="stat-subtext">Flagged for investigation</div>
+                        <div class="stat-icon-wrapper bg-red-light">
+                            <i data-lucide="alert-octagon"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Average Risk Score</div>
+                        <div class="stat-value" id="stat-avg-risk">-- / 100</div>
+                        <div class="stat-subtext">System-wide risk baseline</div>
+                        <div class="stat-icon-wrapper bg-amber-light">
+                            <i data-lucide="activity"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Charts Row -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-card-header">
+                            <div class="chart-card-title">Transaction Classification Ratio</div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chart-pie-ratio"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-card-header">
+                            <div class="chart-card-title">Risk Level Distribution</div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chart-bar-risk"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions Table -->
+                <div class="table-card">
+                    <div class="table-header-row">
+                        <h3 style="font-size: 16px; font-weight: 700;">Recent Analyzed Transactions</h3>
+                        <button class="btn btn-secondary btn-sm" onclick="navigateTo('transactions')">View All</button>
+                    </div>
+                    <div class="custom-table-container">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Application Timestamp</th>
+                                    <th>Amount</th>
+                                    <th>Type</th>
+                                    <th>Risk Score</th>
+                                    <th>Record Type</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-tx-table-body">
+                                <tr><td colspan="8" style="text-align:center; padding: 24px;">Loading transactions...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 2: ANALYZE TRANSACTION (BANKING PORTAL) -->
+            <section id="view-analyze" class="view-section">
+                <!-- Faculty Demonstration Quick Bar -->
+                <div class="faculty-demo-bar" style="margin-bottom: 24px;">
+                    <div class="faculty-demo-title">
+                        <div>
+                            <strong style="font-size: 15px; color: #FFFFFF; display: flex; align-items: center; gap: 8px;">
+                                <i data-lucide="sparkles" style="color: #FCD34D;"></i>
+                                Faculty Demonstration Mode
+                            </strong>
+                            <p style="font-size: 12px; color: #94A3B8; margin-top: 2px;">Test real-world banking transactions with automated contextual feature derivation.</p>
+                        </div>
+                        <span style="font-size: 11px; background: rgba(245, 158, 11, 0.2); color: #FCD34D; border: 1px solid #F59E0B; padding: 4px 10px; border-radius: 9999px; font-weight: 600;">1-Click Simulation</span>
+                    </div>
+                    <div class="faculty-demo-cards">
+                        <div class="faculty-scenario-btn" onclick="loadScenario('scenario_1')">
+                            <div class="faculty-btn-header">
+                                <span class="faculty-btn-title">🟢 Scenario 1 — Safe</span>
+                                <span class="faculty-tag faculty-tag-safe">₹2,500</span>
+                            </div>
+                            <p class="faculty-btn-sub">Priya Sharma • Verified iPhone in Mumbai • Within usual time pattern</p>
+                        </div>
+                        <div class="faculty-scenario-btn" onclick="loadScenario('scenario_2')">
+                            <div class="faculty-btn-header">
+                                <span class="faculty-btn-title">🔴 Scenario 2 — Suspicious</span>
+                                <span class="faculty-tag faculty-tag-fraud">₹80,000</span>
+                            </div>
+                            <p class="faculty-btn-sub">Priya Sharma • Midnight overseas proxy transfer to crypto desk</p>
+                        </div>
+                        <div class="faculty-scenario-btn" onclick="loadScenario('scenario_3')">
+                            <div class="faculty-btn-header">
+                                <span class="faculty-btn-title">🔵 Scenario 3 — High Legitimate</span>
+                                <span class="faculty-tag faculty-tag-legit">₹1,20,000</span>
+                            </div>
+                            <p class="faculty-btn-sub">Aarav Patel • Known MacBook in Bengaluru • Semester university fee</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Banking Form Card -->
+                <div class="form-card" style="margin-bottom: 24px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--color-border);">
+                        <div>
+                            <h2 style="font-size: 20px; font-weight: 800; color: var(--color-primary); display: flex; align-items: center; gap: 8px;">
+                                <i data-lucide="send" style="color: var(--color-secondary);"></i>
+                                Initiate Financial Transaction
+                            </h2>
+                            <p style="font-size: 13px; color: var(--color-text-muted); margin-top: 4px;">
+                                Enter standard banking transaction details. Multi-modal behavioral patterns, device identity checks, and risk factors are automatically derived from customer account history.
+                            </p>
+                        </div>
+                        <span class="badge badge-safe" style="font-size: 11px;">Academic Fraud Detection Prototype</span>
+                    </div>
+
+                    <!-- Demo Mode Active Notice Banner -->
+                    <div id="demo-scenario-banner" style="display: none; background: #FEF3C7; border: 1px solid #F59E0B; border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 18px; display: none; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong style="color: #92400E; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+                                <i data-lucide="alert-triangle" style="width: 16px; height: 16px;"></i>
+                                <span id="demo-banner-title">DEMO SCENARIO LOADED</span>
+                            </strong>
+                            <p style="font-size: 12px; color: #78350F; margin: 4px 0 0 0;" id="demo-banner-desc">Form is populated with demonstration test data. Click "Clear Form" to start a fresh live transaction.</p>
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="resetBankingForm()" style="background: #FFFFFF; border-color: #F59E0B; color: #92400E; font-weight: 700;">
+                            Clear / Fresh Live Transaction
+                        </button>
+                    </div>
+
+                    <form id="analyze-form" onsubmit="handleAnalyzeSubmit(event)">
+                        <input type="hidden" id="input-is-demo" value="0">
+
+                        <!-- Customer Account Selector & Context Card -->
+                        <div class="form-group">
+                            <label class="form-label" for="input-customer">Select Source Bank Account / Customer Profile *</label>
+                            <select id="input-customer" class="form-control" onchange="onCustomerSelectChange()" style="font-weight: 600; font-size: 15px; padding: 12px 14px;">
+                                <!-- Populated dynamically from /api/customers -->
+                            </select>
+                            
+                            <!-- Dynamic Customer Baseline Info Box -->
+                            <div id="customer-profile-card" class="customer-info-card">
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <strong style="color: var(--color-secondary); font-size: 13px;" id="cust-card-title">Customer Account Profile</strong>
+                                    <span class="badge badge-safe" id="cust-card-status">Clean History</span>
+                                </div>
+                                <div class="customer-info-grid">
+                                    <div class="customer-info-item">
+                                        <span class="customer-info-item-label">Account Balance</span>
+                                        <span class="customer-info-item-val" id="cust-card-balance">₹1,45,200.00</span>
+                                    </div>
+                                    <div class="customer-info-item">
+                                        <span class="customer-info-item-label">Home Location</span>
+                                        <span class="customer-info-item-val" id="cust-card-location">Mumbai, MH</span>
+                                    </div>
+                                    <div class="customer-info-item">
+                                        <span class="customer-info-item-label">Historical Average Spend</span>
+                                        <span class="customer-info-item-val" id="cust-card-avg">₹2,850.00</span>
+                                    </div>
+                                    <div class="customer-info-item">
+                                        <span class="customer-info-item-label">Registered Devices</span>
+                                        <span class="customer-info-item-val" id="cust-card-devices">Mobile App (iOS), MacBook Pro</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Basic Banking Inputs (Only standard transaction fields!) -->
+                        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 20px;">
+                            <div class="form-group">
+                                <label class="form-label" for="input-amount">Transaction Amount (₹) *</label>
+                                <div style="position: relative;">
+                                    <span style="position: absolute; left: 14px; top: 11px; font-weight: 800; font-size: 18px; color: var(--color-text-muted);">₹</span>
+                                    <input type="number" step="0.01" id="input-amount" class="form-control" placeholder="0.00" required style="padding-left: 36px; font-size: 20px; font-weight: 800;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="input-type">Transaction Type *</label>
+                                <select id="input-type" class="form-control" required style="padding: 13px 14px; font-weight: 600;">
+                                    <option value="Purchase" selected>Purchase / POS</option>
+                                    <option value="Payment">Bill / Merchant Payment</option>
+                                    <option value="Transfer">Direct Bank Transfer</option>
+                                    <option value="Online Transfer">Online Wire / IMPS / RTGS</option>
+                                    <option value="Withdrawal">Cash Withdrawal</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="form-group">
+                                <label class="form-label" for="input-recipient">Recipient / Merchant / Beneficiary *</label>
+                                <input type="text" id="input-recipient" class="form-control" placeholder="e.g. Amazon India, Nature's Basket, Ramesh Sharma" required style="padding: 12px 14px;">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="input-description">Payment Remarks / Description (Optional)</label>
+                                <input type="text" id="input-description" class="form-control" placeholder="e.g. Weekly groceries, semester tuition fee" style="padding: 12px 14px;">
+                            </div>
+                        </div>
+
+                        <!-- Real Application Date & Time Inputs -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 6px;">
+                            <div class="form-group">
+                                <label class="form-label" for="input-date">
+                                    Transaction Date <span style="font-size: 11px; font-weight: normal; color: var(--color-text-muted);">(Optional — Leave blank for current server date)</span>
+                                </label>
+                                <input type="date" id="input-date" class="form-control" style="padding: 12px 14px;">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="input-time">
+                                    Transaction Time <span style="font-size: 11px; font-weight: normal; color: var(--color-text-muted);">(Optional — Leave blank for current server time)</span>
+                                </label>
+                                <input type="time" step="1" id="input-time" class="form-control" style="padding: 12px 14px;">
+                            </div>
+                        </div>
+
+                        <!-- Optional Advanced Demonstration Overrides (Drawer for Faculty testing) -->
+                        <details class="simulation-drawer" id="simulation-details-drawer">
+                            <summary>
+                                <i data-lucide="sliders"></i>
+                                <span>Advanced Demonstration Overrides [Optional for Faculty Testing]</span>
+                            </summary>
+                            <p style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 12px;">
+                                By default, the system automatically uses the client environment, current time, and customer's registered verified device & home location. Use the controls below only if you want to test edge cases (such as simulating an overnight transaction or foreign proxy IP).
+                            </p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label" style="font-size: 12px;">Simulated Device</label>
+                                    <input type="text" id="input-sim-device" class="form-control" placeholder="Leave blank for auto-detected">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label" style="font-size: 12px;">Simulated Location</label>
+                                    <input type="text" id="input-sim-location" class="form-control" placeholder="Leave blank for home location">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label" style="font-size: 12px;">Simulated Time</label>
+                                    <input type="time" id="input-sim-time" class="form-control">
+                                </div>
+                            </div>
+                        </details>
+
+                        <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px; margin-top: 10px;">
+                            <button type="button" class="btn btn-secondary" onclick="resetBankingForm()">Clear Form</button>
+                            <button type="submit" class="btn btn-primary" style="padding: 14px 32px; font-size: 16px;">
+                                <i data-lucide="shield-check"></i>
+                                <span>Execute Payment & AI Security Analysis</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- VIEW 3: ANALYSIS RESULT PAGE -->
+            <section id="view-result" class="view-section">
+                <div class="result-card">
+                    <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--color-border); padding-bottom: 20px; margin-bottom: 24px;">
+                        <div>
+                            <span style="font-size: 12px; color: var(--color-text-muted); font-weight: 600; text-transform: uppercase;">Transaction Analysis & Explainable AI Assessment</span>
+                            <h2 style="font-size: 24px; font-weight: 800; color: var(--color-primary);" id="res-tx-id">TXN-2026-XXXXX</h2>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-secondary btn-sm" onclick="navigateTo('analyze')">← Analyze Another</button>
+                            <button class="btn btn-secondary btn-sm" onclick="navigateTo('transactions')">View History</button>
+                        </div>
+                    </div>
+
+                    <!-- Risk Meter Box -->
+                    <div id="res-risk-box" class="risk-meter-box high-risk">
+                        <div>
+                            <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" id="res-risk-label">HIGH RISK</div>
+                            <div class="score-display-huge" id="res-risk-prob">88.4%</div>
+                            <div style="font-size: 15px; font-weight: 700; margin-top: 4px;" id="res-prediction-text">Potential Fraud Detected</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 12px; color: var(--color-text-muted); text-transform: uppercase; font-weight: 600;">Transaction Amount</div>
+                            <div style="font-size: 28px; font-weight: 800;" id="res-amount">₹80,000</div>
+                            <div style="font-size: 13px; color: var(--color-text-muted); font-weight: 500; margin-top: 2px;" id="res-meta">Online Transfer • CryptoGlobal Desk</div>
+                        </div>
+                    </div>
+
+                    <!-- How to Interpret This Result Section -->
+                    <div class="result-interpretation-card" style="background: #F8FAFC; border-left: 4px solid var(--color-secondary); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 16px;">
+                        <div style="font-size: 13px; font-weight: 700; color: var(--color-primary); display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                            <i data-lucide="help-circle" style="width: 16px; height: 16px; color: var(--color-secondary);"></i>
+                            <span>How to interpret this result</span>
+                        </div>
+                        <p style="font-size: 13px; color: #334155; line-height: 1.5; margin: 0;">
+                            <strong>The risk score represents the model's fraud-risk assessment. It is not proof that a transaction is fraudulent.</strong>
+                            High transaction amount alone does NOT mean fraud; genuine high-value transfers remain low risk when verified from trusted devices and familiar locations.
+                            No individual feature proves a transaction is safe or fraudulent.
+                        </p>
+                    </div>
+
+                    <!-- Metric Differentiation Guide: Fraud Probability vs Model Risk Score vs SHAP Feature Impact -->
+                    <div class="metrics-distinction-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 18px;">
+                        <!-- Metric 1: Calibrated Fraud Probability -->
+                        <div style="background: #FFFFFF; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 14px 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <span style="font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.5px;">Calibrated Fraud Probability</span>
+                                <span class="badge" style="background:#EEF2FF; color:#4F46E5; font-size:10px; font-weight:700;">P(Fraud|X)</span>
+                            </div>
+                            <div style="font-size: 22px; font-weight: 800; color: var(--color-primary);" id="dist-fraud-prob">14.2%</div>
+                            <div style="font-size: 11px; color: #475569; margin-top: 4px; line-height: 1.4;">
+                                <strong>Statistical Likelihood:</strong> Output probability from the Artificial Neural Network ($P(Y=\text{Fraud}|X)$) estimating fraud likelihood.
+                            </div>
+                        </div>
+
+                        <!-- Metric 2: Model Risk Score -->
+                        <div style="background: #FFFFFF; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 14px 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <span style="font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.5px;">Model Risk Score</span>
+                                <span class="badge" style="background:#F1F5F9; color:#334155; font-size:10px; font-weight:700;">0–100 Scale</span>
+                            </div>
+                            <div style="font-size: 22px; font-weight: 800; color: var(--color-primary);" id="dist-risk-score">14.2 / 100 (LOW RISK)</div>
+                            <div style="font-size: 11px; color: #475569; margin-top: 4px; line-height: 1.4;">
+                                <strong>Operational Metric:</strong> Governs bank decision policy tiers (0–30 Low, 31–70 Medium, 71–100 High). Not proof of fraud.
+                            </div>
+                        </div>
+
+                        <!-- Metric 3: SHAP Feature Impact -->
+                        <div style="background: #FFFFFF; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 14px 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <span style="font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.5px;">SHAP Feature Impact</span>
+                                <span class="badge" style="background:#FEF3C7; color:#92400E; font-size:10px; font-weight:700;">Attribution Share</span>
+                            </div>
+                            <div style="font-size: 22px; font-weight: 800; color: var(--color-primary);" id="dist-shap-summary">Top: 26.2%</div>
+                            <div style="font-size: 11px; color: #475569; margin-top: 4px; line-height: 1.4;">
+                                <strong>Explainability Weight:</strong> Normalized ANN SHAP attribution share (&phi;<sub>i</sub>). <strong style="color:#DC2626;">NOT a probability.</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Anti-False-Positive Nuance Banner -->
+                    <div style="background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 24px; font-size: 13px; display: flex; align-items: center; gap: 10px;">
+                        <i data-lucide="info" style="color: var(--color-secondary); width: 20px; flex-shrink:0;"></i>
+                        <span id="res-nuance-note">High transaction amount alone is not treated as proof of fraud. Multi-modal behavioral features are evaluated simultaneously.</span>
+                    </div>
+
+                    <!-- SECTION: Automatically Derived Behavioral & Contextual Factors -->
+                    <div class="derived-factors-panel">
+                        <div class="derived-factors-header">
+                            <div>
+                                <h3 style="font-size: 16px; font-weight: 700; color: var(--color-primary); display: flex; align-items: center; gap: 8px;">
+                                    <i data-lucide="layers" style="color: var(--color-secondary);"></i>
+                                    <span>Analysis Details — Automatically Derived Behavioral & Contextual Factors</span>
+                                </h3>
+                                <p style="font-size: 12px; color: var(--color-text-muted); margin-top: 2px;">
+                                    Calculated automatically from customer transaction history and environmental signals rather than manual user entry.
+                                </p>
+                            </div>
+                            <span class="badge badge-safe" id="derived-account-badge">Account: Priya Sharma</span>
+                        </div>
+                        <div class="derived-factors-grid" id="derived-factors-container">
+                            <!-- Populated dynamically by displayAnalysisResult() -->
+                        </div>
+                    </div>
+
+                    <!-- Grid: XAI Bar Chart & GPT Natural Language Explanation -->
+                    <div class="charts-grid" style="margin-bottom: 0;">
+                        <!-- Explainable AI Column -->
+                        <div>
+                            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+                                <i data-lucide="bar-chart-3" style="color: var(--color-secondary);"></i>
+                                <span>Explainable AI (ANN SHAP) Feature Impact Attribution</span>
+                            </h3>
+                            <p style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 14px;">
+                                Relative SHAP attribution contribution shares (not probabilities). Shows features that increased model risk vs features that reduced model risk.
+                            </p>
+                            <div id="xai-bars-container">
+                                <!-- Rendered dynamically by JS -->
+                            </div>
+                        </div>
+
+                        <!-- GPT Explanation Column -->
+                        <div>
+                            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                                <i data-lucide="bot" style="color: var(--color-secondary);"></i>
+                                <span>NeuroFinance GPT Explanation</span>
+                            </h3>
+                            <div style="background: #F8FAFC; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 20px; font-size: 14px; line-height: 1.6; color: var(--color-text-main);" id="res-gpt-text">
+                                Generating explanation...
+                            </div>
+                            <div style="margin-top: 18px; display: flex; gap: 12px;">
+                                <button class="btn btn-primary btn-sm" onclick="askGPTAboutCurrentTx()">
+                                    <i data-lucide="message-square"></i>
+                                    <span>Ask NeuroFinance GPT</span>
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="navigateTo('transactions')">
+                                    <i data-lucide="list"></i>
+                                    <span>View in History</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 4: TRANSACTIONS HISTORY -->
+            <section id="view-transactions" class="view-section">
+                <div class="table-card">
+                    <div class="table-header-row" style="flex-wrap: wrap; gap: 16px;">
+                        <div>
+                            <h3 style="font-size: 18px; font-weight: 700;">Transaction History Database</h3>
+                            <p style="font-size: 12px; color: var(--color-text-muted);">Stored records of all analyzed transactions with risk scores and XAI factors.</p>
+                        </div>
+                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                            <input type="text" id="tx-search" class="form-control" placeholder="Search TXN ID, location..." style="width: 200px;" oninput="fetchTransactions()">
+                            <select id="filter-risk" class="form-control" style="width: 140px;" onchange="fetchTransactions()">
+                                <option value="">All Risk Levels</option>
+                                <option value="LOW RISK">LOW RISK</option>
+                                <option value="MEDIUM RISK">MEDIUM RISK</option>
+                                <option value="HIGH RISK">HIGH RISK</option>
+                            </select>
+                            <select id="filter-type" class="form-control" style="width: 140px;" onchange="fetchTransactions()">
+                                <option value="">All Types</option>
+                                <option value="Purchase">Purchase</option>
+                                <option value="Transfer">Transfer</option>
+                                <option value="Withdrawal">Withdrawal</option>
+                                <option value="Payment">Payment</option>
+                                <option value="Online Transfer">Online Transfer</option>
+                            </select>
+                            <select id="filter-record-type" class="form-control" style="width: 170px;" onchange="fetchTransactions()">
+                                <option value="">All Records (Live & Demo)</option>
+                                <option value="live">Live Submissions Only</option>
+                                <option value="demo">Demo Records Only</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="custom-table-container">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Application Timestamp</th>
+                                    <th>Amount (₹)</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Device</th>
+                                    <th>Risk Score</th>
+                                    <th>Record Type</th>
+                                    <th>Risk Level</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-table-body">
+                                <tr><td colspan="10" style="text-align:center; padding: 24px;">Loading transactions...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 5: EXPLAINABLE AI TECHNICAL OVERVIEW -->
+            <section id="view-xai" class="view-section">
+                <div class="form-card" style="margin-bottom: 24px;">
+                    <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Multi-Modal Feature Fusion & SHAP Explainability</h2>
+                    <p style="font-size: 14px; color: var(--color-text-muted);">NeuroFinance GPT combines 4 distinct feature categories into a unified representation before machine learning classification.</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-title">1. Numerical Features</div>
+                        <div style="font-size: 14px; font-weight: 600; margin-top: 6px;">Amount, Customer Avg Amount, Txn Counts</div>
+                        <div class="stat-subtext">Quantifies value divergence ratios</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">2. Categorical Features</div>
+                        <div style="font-size: 14px; font-weight: 600; margin-top: 6px;">Device Model, IP Location, Channel Type</div>
+                        <div class="stat-subtext">Identifies hardware & channel risk</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">3. Temporal Features</div>
+                        <div style="font-size: 14px; font-weight: 600; margin-top: 6px;">Time of Day, Day of Week, Execution Frequency</div>
+                        <div class="stat-subtext">Detects unusual overnight activity</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">4. Behavioral Profile</div>
+                        <div style="font-size: 14px; font-weight: 600; margin-top: 6px;">New Device Flag, Unusual Location Flag, Past Fraud</div>
+                        <div class="stat-subtext">Tracks user historical consistency</div>
+                    </div>
+                </div>
+
+                <!-- Model Evaluation Metrics Card -->
+                <div class="form-card">
+                    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">Model Evaluation & Accuracy Metrics</h3>
+                    <div class="stats-grid" style="margin-bottom: 20px;">
+                        <div style="background: var(--color-bg); padding: 16px; border-radius: var(--radius-md); text-align: center;">
+                            <div style="font-size: 12px; color: var(--color-text-muted);">Accuracy</div>
+                            <div style="font-size: 24px; font-weight: 800; color: var(--color-secondary);" id="metric-accuracy">--%</div>
+                        </div>
+                        <div style="background: var(--color-bg); padding: 16px; border-radius: var(--radius-md); text-align: center;">
+                            <div style="font-size: 12px; color: var(--color-text-muted);">Precision</div>
+                            <div style="font-size: 24px; font-weight: 800; color: var(--color-success);" id="metric-precision">--%</div>
+                        </div>
+                        <div style="background: var(--color-bg); padding: 16px; border-radius: var(--radius-md); text-align: center;">
+                            <div style="font-size: 12px; color: var(--color-text-muted);">Recall</div>
+                            <div style="font-size: 24px; font-weight: 800; color: var(--color-warning);" id="metric-recall">--%</div>
+                        </div>
+                        <div style="background: var(--color-bg); padding: 16px; border-radius: var(--radius-md); text-align: center;">
+                            <div style="font-size: 12px; color: var(--color-text-muted);">F1 Score</div>
+                            <div style="font-size: 24px; font-weight: 800; color: var(--color-primary);" id="metric-f1">--%</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: DATASET & MODEL ACADEMIC EVALUATION -->
+            <section id="view-dataset" class="view-section">
+                <!-- Academic Dataset Banner -->
+                <div class="dataset-banner">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                                <span class="badge" style="background: #4F46E5; color: #FFFFFF; font-weight: 700; text-transform: uppercase; font-size: 11px;">
+                                    Real Academic Dataset
+                                </span>
+                                <span class="badge" style="background: rgba(255,255,255,0.15); color: #E2E8F0; font-size: 11px;">
+                                    Kaggle / Vesta Corporation
+                                </span>
+                            </div>
+                            <h2 style="font-size: 22px; font-weight: 800; color: #FFFFFF; margin-bottom: 6px;">
+                                IEEE-CIS Fraud Detection Dataset — project subset
+                            </h2>
+                            <p style="font-size: 13px; color: #CBD5E1; max-width: 800px; line-height: 1.6;">
+                                NeuroFinance GPT is trained and evaluated directly on an academic project subset of the authentic Kaggle IEEE-CIS Fraud Detection competition dataset, produced by Vesta Corporation. The dataset joins transaction records with digital device and identity signatures on <code>TransactionID</code>. All statistics and metrics below are calculated programmatically from the loaded data.
+                            </p>
+                        </div>
+                        <div>
+                            <a href="https://www.kaggle.com/c/ieee-fraud-detection" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="background: rgba(255,255,255,0.15); color: #FFFFFF; border-color: rgba(255,255,255,0.25);">
+                                <i data-lucide="external-link"></i>
+                                <span>Kaggle Dataset Source</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dataset Overview Statistics Grid -->
+                <div class="stats-grid" style="margin-bottom: 24px;">
+                    <div class="stat-card">
+                        <div class="stat-title">Total Records</div>
+                        <div class="stat-value" id="ds-total-records">49,999</div>
+                        <div class="stat-subtext">Real joined transaction & identity records</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Feature Space</div>
+                        <div class="stat-value" style="font-size: 20px;"><span id="ds-raw-features">434</span> raw → <span id="ds-selected-features">72</span> selected</div>
+                        <div class="stat-subtext">Across 6 multi-modal groups</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Class Distribution (Imbalance)</div>
+                        <div class="stat-value" style="font-size: 18px; color: #DC2626;" id="ds-fraud-records">1,357 (2.71%)</div>
+                        <div class="stat-subtext">vs <span id="ds-non-fraud-records">48,642 (97.29%)</span> Normal</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Train / Test Partition</div>
+                        <div class="stat-value" style="font-size: 18px; color: #2563EB;">80% / 20%</div>
+                        <div class="stat-subtext"><span id="ds-train-split">39,999</span> train / <span id="ds-test-split">10,000</span> test</div>
+                    </div>
+                </div>
+
+                <!-- 6 Multi-Modal Feature Groups Grid -->
+                <div class="form-card" style="margin-bottom: 24px;">
+                    <div style="margin-bottom: 16px;">
+                        <h3 style="font-size: 18px; font-weight: 700; color: var(--color-primary); display: flex; align-items: center; gap: 8px;">
+                            <i data-lucide="layers" style="color: var(--color-secondary);"></i>
+                            <span>Multi-Modal Feature Space (6 Curated Groups)</span>
+                        </h3>
+                        <p style="font-size: 13px; color: var(--color-text-muted);">
+                            Features organized into 6 distinct analytical streams to allow comprehensive behavioral, contextual, and transactional profiling.
+                        </p>
+                    </div>
+                    <div class="feature-group-grid" id="feature-groups-container">
+                        <!-- Populated dynamically by dataset.js -->
+                    </div>
+                </div>
+
+                <!-- Model Performance Comparison & Confusion Matrix Grid -->
+                <div class="model-comparison-grid">
+                    <!-- Primary Model: Artificial Neural Network (ANN) Performance -->
+                    <div class="form-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                            <div>
+                                <h3 style="font-size: 16px; font-weight: 700; color: var(--color-primary); display: flex; align-items: center; gap: 8px;">
+                                    <i data-lucide="cpu" style="color: var(--color-secondary);"></i>
+                                    <span>Artificial Neural Network (ANN)</span>
+                                </h3>
+                                <div style="font-size: 11px; font-weight: 600; color: #4F46E5; text-transform: uppercase; margin-top: 2px;">
+                                    Model Type: Deep Learning (Multi-Layer Perceptron)
+                                </div>
+                            </div>
+                            <span class="badge badge-safe">Primary Model</span>
+                        </div>
+                        <p style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 16px;">
+                            Deep Neural Network architecture (72 &rarr; 128 &rarr; 64 &rarr; 32 &rarr; 2) trained with Adam optimizer, ReLU activations, L2 weight regularization, and stratified class balancing to detect complex multi-modal fraud representations.
+                        </p>
+
+                        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 18px;">
+                            <div style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-sm); text-align: center;">
+                                <div style="font-size: 11px; color: var(--color-text-muted); font-weight: 600;">Accuracy</div>
+                                <div style="font-size: 20px; font-weight: 800; color: #16A34A;" id="ds-model-accuracy">97.29%</div>
+                            </div>
+                            <div style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-sm); text-align: center;">
+                                <div style="font-size: 11px; color: var(--color-text-muted); font-weight: 600;">ROC-AUC</div>
+                                <div style="font-size: 20px; font-weight: 800; color: #2563EB;" id="ds-model-roc-auc">87.82%</div>
+                            </div>
+                            <div style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-sm); text-align: center;">
+                                <div style="font-size: 11px; color: var(--color-text-muted); font-weight: 600;">Fraud Recall</div>
+                                <div style="font-size: 20px; font-weight: 800; color: #D97706;" id="ds-model-recall">53.51%</div>
+                            </div>
+                        </div>
+
+                        <div class="stats-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 18px;">
+                            <div style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-sm); text-align: center;">
+                                <div style="font-size: 11px; color: var(--color-text-muted); font-weight: 600;">Precision</div>
+                                <div style="font-size: 18px; font-weight: 700; color: var(--color-primary);" id="ds-model-precision">50.0%</div>
+                            </div>
+                            <div style="background: var(--color-bg); padding: 12px; border-radius: var(--radius-sm); text-align: center;">
+                                <div style="font-size: 11px; color: var(--color-text-muted); font-weight: 600;">F1 Score</div>
+                                <div style="font-size: 18px; font-weight: 700; color: var(--color-primary);" id="ds-model-f1">51.69%</div>
+                            </div>
+                        </div>
+
+                        <!-- Top Global Features from Trained Model -->
+                        <div>
+                            <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 10px; color: var(--color-text-muted); text-transform: uppercase;">
+                                Top Global Model Features (ANN Layer Saliency)
+                            </h4>
+                            <div id="ds-top-features-list">
+                                <!-- Rendered dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Confusion Matrix & Baseline Comparator -->
+                    <div class="form-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                            <h3 style="font-size: 16px; font-weight: 700; color: var(--color-primary); display: flex; align-items: center; gap: 8px;">
+                                <i data-lucide="grid" style="color: var(--color-secondary);"></i>
+                                <span>Academic Confusion Matrix (Test Set: N=10,000)</span>
+                            </h3>
+                            <span class="badge" style="background: #E0E7FF; color: #3730A3;">Unseen Test Data</span>
+                        </div>
+                        <p style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 14px;">
+                            Evaluated on 10,000 real holdout IEEE-CIS samples (271 actual frauds, 9,729 legitimate transactions) using the Primary ANN model.
+                        </p>
+
+                        <!-- 2x2 Confusion Matrix Grid -->
+                        <div class="confusion-matrix-wrapper">
+                            <div class="cm-grid">
+                                <div></div>
+                                <div class="cm-header">Pred: Normal</div>
+                                <div class="cm-header">Pred: Fraud</div>
+
+                                <div class="cm-header" style="writing-mode: vertical-lr; transform: rotate(180deg);">Actual: Normal</div>
+                                <div class="cm-cell cm-tn">
+                                    <div class="cm-val" id="cm-tn-val">9,584</div>
+                                    <div class="cm-sub" id="cm-tn-sub">True Negatives (98.5% Spec)</div>
+                                </div>
+                                <div class="cm-cell cm-fp">
+                                    <div class="cm-val" id="cm-fp-val">145</div>
+                                    <div class="cm-sub">False Positives (Requires Step-Up 2FA)</div>
+                                </div>
+
+                                <div class="cm-header" style="writing-mode: vertical-lr; transform: rotate(180deg);">Actual: Fraud</div>
+                                <div class="cm-cell cm-fn">
+                                    <div class="cm-val" id="cm-fn-val">126</div>
+                                    <div class="cm-sub">False Negatives (Missed)</div>
+                                </div>
+                                <div class="cm-cell cm-tp">
+                                    <div class="cm-val" id="cm-tp-val">145</div>
+                                    <div class="cm-sub" id="cm-tp-sub">True Positives (53.5% Recall)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Optional Baseline Model (Random Forest) Benchmark Note -->
+                        <div style="margin-top: 16px; background: #F8FAFC; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 12px 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <strong style="font-size: 13px; color: var(--color-primary);">Baseline Model: Random Forest (Optional)</strong>
+                                <span style="font-size: 12px; font-weight: 700; color: #2563EB;">Acc: <span id="ds-baseline-accuracy">93.50%</span> | F1: <span id="ds-baseline-f1">38.91%</span> | ROC: <span id="ds-baseline-roc">92.13%</span></span>
+                            </div>
+                            <p style="font-size: 12px; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
+                                <strong>Benchmark Comparison:</strong> The Artificial Neural Network (ANN) serves as the primary deep learning architecture, achieving <strong>97.29% accuracy</strong> and a <strong>51.69% F1 score</strong> while drastically reducing false positives to only 145 on the test set. Random Forest is preserved strictly as an optional baseline comparator for academic evaluation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Authentic IEEE-CIS Dataset Sample Explorer -->
+                <div class="table-card">
+                    <div class="table-header-row">
+                        <div>
+                            <h3 style="font-size: 17px; font-weight: 700;">Authentic IEEE-CIS Transaction Samples</h3>
+                            <p style="font-size: 12px; color: var(--color-text-muted);">
+                                Programmatically extracted sample transactions directly from Kaggle <code>train_transaction.csv</code> & <code>train_identity.csv</code>.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="custom-table-container">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Amount</th>
+                                    <th>Product CD</th>
+                                    <th>Device / Platform</th>
+                                    <th>Purchaser Domain</th>
+                                    <th>Ground Truth Label</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ds-sample-table-body">
+                                <tr><td colspan="7" style="text-align:center; padding: 20px;">Loading authentic dataset samples...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 6: AI ASSISTANT CHAT -->
+            <section id="view-chat" class="view-section">
+                <div class="chat-card">
+                    <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 36px; height: 36px; background: var(--color-secondary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i data-lucide="bot"></i>
+                        </div>
+                        <div>
+                            <strong style="font-size: 15px;">NeuroFinance GPT Assistant</strong>
+                            <p style="font-size: 12px; color: var(--color-text-muted);">Ask questions about transaction risk flags, XAI factors, and fraud patterns.</p>
+                        </div>
+                    </div>
+
+                    <div class="chat-messages" id="chat-messages-box">
+                        <div class="message-bubble message-ai">
+                            👋 Hello! I am NeuroFinance GPT. You can ask me questions such as:
+                            <div style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px;">
+                                <button class="btn btn-secondary btn-sm" onclick="sendQuickChat('Why was this transaction flagged?')">Why was this transaction flagged?</button>
+                                <button class="btn btn-secondary btn-sm" onclick="sendQuickChat('Which factor affected the prediction most?')">Which factor affected prediction most?</button>
+                                <button class="btn btn-secondary btn-sm" onclick="sendQuickChat('Could this transaction still be genuine?')">Could this transaction still be genuine?</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="chat-input-row" onsubmit="handleChatSubmit(event)">
+                        <input type="text" id="chat-input" class="form-control" placeholder="Ask NeuroFinance GPT a question..." required>
+                        <button type="submit" class="btn btn-primary">
+                            <i data-lucide="send"></i>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- VIEW 7: ABOUT PAGE -->
+            <section id="view-about" class="view-section">
+                <div class="form-card" style="margin-bottom: 24px;">
+                    <h2 style="font-size: 22px; font-weight: 800; color: var(--color-primary); margin-bottom: 8px;">About NeuroFinance GPT</h2>
+                    <p style="font-size: 14px; color: var(--color-text-muted); line-height: 1.6;">
+                        "NeuroFinance GPT: Explainable Deep Learning for Financial Fraud Prediction Using Multi-Modal Data" is an advanced academic prototype designed to address the black-box challenge of traditional AI fraud detection models.
+                    </p>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="form-card">
+                        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--color-secondary);">Key Architectural Components</h3>
+                        <ul style="padding-left: 20px; font-size: 14px; line-height: 1.8; color: var(--color-text-main);">
+                            <li><strong>Multi-Modal Feature Fusion:</strong> Integrates numerical, categorical, temporal, and behavioral indicators.</li>
+                            <li><strong>ML Risk Classifier:</strong> Predicts continuous fraud probability (0–100%) mapped to Low, Medium, and High risk tiers.</li>
+                            <li><strong>Explainable AI (SHAP):</strong> Calculates feature impact attributions for full model transparency.</li>
+                            <li><strong>GPT Natural Language Summary:</strong> Converts technical feature weights into plain-English explanations.</li>
+                            <li><strong>Anti-False-Positive Nuance:</strong> High monetary amounts alone never trigger fraud alerts without contextual anomalies.</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-card">
+                        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--color-success);">System Benefits</h3>
+                        <ul style="padding-left: 20px; font-size: 14px; line-height: 1.8; color: var(--color-text-main);">
+                            <li>Reduces unnecessary false fraud alerts for high-value legitimate transfers (e.g. tuition fees).</li>
+                            <li>Empowers non-technical fraud analysts with human-understandable AI reasoning.</li>
+                            <li>Maintains an audit trail of all analyzed transactions in a local SQLite database.</li>
+                            <li>Protects financial privacy with client-side environment variable security.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Step-by-Step Progress Overlay Animation -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <div class="loading-steps">
+            <div class="loading-step-item" id="step-1">✓ Validating multi-modal transaction fields...</div>
+            <div class="loading-step-item" id="step-2">⏳ Checking behavioral profile & location baselines...</div>
+            <div class="loading-step-item" id="step-3">⏳ Running Machine Learning fraud risk classifier...</div>
+            <div class="loading-step-item" id="step-4">⏳ Generating SHAP feature importance & GPT summary...</div>
+        </div>
+    </div>
+
+    <!-- Transaction Details Modal -->
+    <div id="detail-modal" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 16px; margin-bottom: 20px;">
+                <h3 style="font-size: 18px; font-weight: 700;" id="modal-tx-id">Transaction Details</h3>
+                <button class="btn btn-secondary btn-sm" onclick="closeModal()">✕ Close</button>
+            </div>
+            <div id="modal-body-content">
+                <!-- Rendered dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Modules -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/analyze.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dataset.js') }}"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
